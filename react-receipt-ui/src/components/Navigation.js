@@ -1,8 +1,9 @@
 import React from 'react';
 import SearchBar from 'material-ui-search-bar';
-import { AppBar, Typography, Toolbar, Button } from '@material-ui/core';
+import { AppBar, IconButton, Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Travtail from '../assets/Travtail.png'
+import KeyboardArrowDownSharpIcon from '@material-ui/icons/KeyboardArrowDownSharp';
 
 const useStyles = makeStyles({
    root: {
@@ -17,7 +18,10 @@ export default function Appbar(props) {
     return (
 <AppBar position="static" className={classes.root}>
   <Toolbar >
-  <SearchBar/>
+      <IconButton aria-label="Filter"> 
+       Filter <KeyboardArrowDownSharpIcon/>
+      </IconButton>
+  <SearchBar placeholder="Search Orders"/>
   </Toolbar>
 </AppBar>
     )
