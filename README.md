@@ -27,6 +27,14 @@ The FILTER button would be a drop down menu, with the options week month year an
 Refelction:
 Lost track of time focusing on outputting data from database and didnt get around to implementing functionality. I really enjoyed working on this project, and am pleased with how it looks aesethetically. 
 
+TO RUN:
+clone project with git clone
+cd into react-receipt-ui folder
+run npm start 
+
+
+
+
 
 
 
