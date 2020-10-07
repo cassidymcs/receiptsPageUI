@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {Component, useState, useEffect}from 'react';
 import { Card,CardActionArea, CardActions,Button, Typography, CardContent, 
          ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary,
         ListItem, List, ListSubheader, Divider, ListItemText, TextareaAutosize,
@@ -6,7 +6,7 @@ import { Card,CardActionArea, CardActions,Button, Typography, CardContent,
 import { makeStyles } from '@material-ui/core/styles';
 import logo from '../assets/Travtail.png';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import axios from 'axios';
 
 const useStyles = makeStyles({
    root: {
@@ -26,35 +26,34 @@ const useStyles = makeStyles({
 
 });
 
-const data = [
-    {
-        id: 1,
-        num_items: '3',
-        date: '09/22/2020',
-        items: [
-            {name: 'Apples', price: '2.99'},
-            {name: 'Blanket', price: '20.30'},
-            {name: 'Sponge', price: '1.99'}
-        ]
-    },
-    {
-        id: 2,
-        num_items: '2',
-        date: '09/28/2020',
-        items: [
-            {name: 'Gloves', price: '4.99'},
-            {name: 'DVD Player', price: '24.99'}
-        ]
-
-    }
-]
-
-
 
 export default function ReceiptView(props) {
     const classes = useStyles();
     
+
+    const [data, setData] = useState({ results: [] });
+   
+    useEffect(() => {
+      const fetchData = async () => {
+        const result = await axios(
+         "https://localhost:4000/products"
+        );
+        setData({ results: result.data.results});
+        console.log(result.data.results);
+      };
+      fetchData();
+    }, []);
+
+    //used mysql local db: this is what the data logs :
+/*
+{"results":[{"product_id":1,"product_name":"DVD player","product_price":36},
+{"product_id":2,"product_name":"Toilet Paper","product_price":7},
+{"product_id":3,"product_name":"Pillow Case set(2)","product_price":9},
+{"product_id":4,"product_name":"Flower Vase","product_price":7}]}
+*/ 
+
     return (
+         
           <Card className={classes.card}>
            <CardActionArea>
                 <CardContent>
@@ -77,16 +76,8 @@ export default function ReceiptView(props) {
         <ExpansionPanelDetails>
           <Typography>
              <List> 
-                 {data.map((list, id)=>
-                  <ListItem key={id}>
-                      {list.items.map((title, i) => (
-                          <ListItem key={i}>
-                              {title.name + "  $" + title.price}
-                          </ListItem>
-                      )
-                      )}
-                     </ListItem>
-                 )}
+                        {data.results.map(Products=> ( <ListItem key={Products.product_id}>{Products.product_name} <ListItemText classes={classes.list_price}>{"$" + Products.product_price}</ListItemText>  </ListItem>
+                         ))}
              </List>
              <Divider/>
              <List subheader={<ListSubheader>Summary</ListSubheader>}>
@@ -96,7 +87,8 @@ export default function ReceiptView(props) {
                      
                  </ListItem>
                  <ListItem>
-                     Total:   
+                     Total:  
+                     <ListItemText className={classes.list_price}>   $28.35</ListItemText> 
                  </ListItem>
              </List>
           </Typography>

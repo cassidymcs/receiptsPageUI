@@ -27,14 +27,18 @@ const data = [
   }
 ]
 
+
+
 function App() {
+
   return (
     <div className="App">
       <Appbar/>
       {data.map((receipt, id) => ( 
               <ReceiptView key={id}
               date={receipt.date}
-              num_items={receipt.num_items}>
+              num_items={receipt.num_items}
+              total_price="28.35">
  </ReceiptView>
                      ))}
     </div>
